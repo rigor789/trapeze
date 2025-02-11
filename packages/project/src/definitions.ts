@@ -50,20 +50,26 @@ export type IosBuildName = 'Debug' | 'Release' | string;
 export type IosTargetName = string;
 export type IosProjectName = string;
 
-export interface IosRemoteSPMPackageDefinition {
-  name: string;
-  libs: string[];
-  repositoryURL: string;
-  version: string;
+interface IOSSPMPackageBase {
+	name: string;
+	libs: string[];
+	/**
+	 * Optional: If you have more targets (like widgets for example)
+	 * you can list their names here to include the Swift Package with them
+	 */
+	targets?: string[];
 }
 
-export interface IosLocalSPMPackageDefinition {
-  name: string;
-  libs: string[];
-  path: string;
+export interface IOSRemoteSPMPackage extends IOSSPMPackageBase {
+	repositoryURL: string;
+	version: string;
 }
 
-export type IosSPMPackageDefinition = IosRemoteSPMPackageDefinition | IosLocalSPMPackageDefinition;
+export interface IOSLocalSPMPackage extends IOSSPMPackageBase {
+	path: string;
+}
+
+export type IosSPMPackageDefinition = IOSRemoteSPMPackage | IOSLocalSPMPackage;
 
 /**
  * Android definitions
